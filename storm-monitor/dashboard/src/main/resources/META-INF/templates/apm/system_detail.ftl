@@ -15,7 +15,7 @@
         </div>
         <div data-options="region:'center',split:true,border:false">
             <div class="easyui-layout" data-options="fit:true">
-                <div id="menu_toolbar" data-options="region:'west',split:true,tools:'#tt12'"  style="width:500px;">
+                <div id="menu_toolbar" data-options="region:'west',split:true,tools:'#tt12'"  style="width:350px;">
                     <div id="tt12">
                         <a href="javascript:void(0)" class="icon-help" onclick="javascript:alert('多用用就知道了')"></a>
                     </div>
@@ -38,7 +38,7 @@
 
                 <div data-options="region:'center',split:true" style="padding:1px">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div data-options="region:'west',split:true" title="主机监控" style="width:700px;">
+                        <div data-options="region:'west',split:true" title="主机监控" style="width:500px;">
                             
                             <!-- 1小时内存变化图 -->
                             <div id="h_system_jvm_change" style="height:350px;margin-top: 10px"></div>

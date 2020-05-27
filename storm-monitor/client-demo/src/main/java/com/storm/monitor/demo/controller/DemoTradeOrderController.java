@@ -110,7 +110,7 @@ public class DemoTradeOrderController {
     @ResponseBody
     public DemoTradeOrder addDemoTradeOrder(DemoTradeOrder demoTradeOrder, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        System.out.println(JSON.toJSONString(demoTradeOrder));
+        //System.out.println(JSON.toJSONString(demoTradeOrder));
         DemoTradeOrder oldCfg = null;
 
         if (null != demoTradeOrder.getId()) {
@@ -139,9 +139,9 @@ public class DemoTradeOrderController {
     @ResponseBody
     public boolean deleteDemoTradeOrder(DemoTradeOrder demoTradeOrder, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        System.out.println(JSON.toJSONString(demoTradeOrder));
+        //System.out.println(JSON.toJSONString(demoTradeOrder));
         Long id = demoTradeOrder.getId();
-        System.out.println(id);
+        //System.out.println(id);
         int count = this.demoTradeOrderService.deleteDemoTradeOrderById(id);
 
         return count > 0;

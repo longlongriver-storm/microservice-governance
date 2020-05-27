@@ -13,8 +13,9 @@
                 "menus": [
                     {
                         "menuid": "24", "icon": "icon-sys", "menuname": "演示功能",
-                        "menus": [{"menuid": "25", "menuname": "调用事件生成器", "icon": "icon-nav", "url": "test1"},
-                            {"menuid": "26", "menuname": "商品订单（事件样例）", "icon": "icon-nav", "url": "trade_demotradeorder/gotodemotradeorder"}
+                        "menus": [
+                            {"menuid": "26", "menuname": "商品订单（事件样例）", "icon": "icon-nav", "url": "trade_demotradeorder/gotodemotradeorder"},
+                            {"menuid": "25", "menuname": "调用事件生成器", "icon": "icon-nav", "url": "test1"}
                         ]
                     }
                 ]
