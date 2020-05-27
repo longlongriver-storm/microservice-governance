@@ -5,5 +5,4 @@
 /storm-monitor/server-db/target/
 /storm-monitor/server/target/
 /storm-monitor/dashboard/target/
-/database/monitor_data_ansi.sql
-/database/monitor_data.sql
+/storm-monitor/client-demo/nb-configuration.xml
