@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.demo.dao.DemoTradeOrderMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.demo.model.DemoTradeOrder" >
+        <result column="id" property="id"/>
+        <result column="sku_name" property="skuName"/>
+        <result column="sku_price" property="skuPrice"/>
+        <result column="order_quantity" property="orderQuantity"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="delivery_date" property="deliveryDate" javaType="java.sql.Timestamp"/>
+        <result column="delivery_place" property="deliveryPlace"/>
+        <result column="order_desc" property="orderDesc"/>
+    </resultMap>
+                       
+    <!-- demo_trade_order table all fields -->
+    <sql id="Base_Column_List" >
+        id ,sku_name ,sku_price ,order_quantity ,customer_name ,delivery_date ,delivery_place ,order_desc 
+    </sql>
+   
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="skuName != null and skuName != ''" >
+                and sku_name =  #{skuName}
+            </if>
+            <if test="skuPrice != null" >
+                and sku_price =  #{skuPrice}
+            </if>
+
+            <if test="orderQuantity != null" >
+                and order_quantity =  #{orderQuantity}
+            </if>
+
+            <if test="customerName != null and customerName != ''" >
+                and customer_name =  #{customerName}
+            </if>
+            <if test="deliveryDate != null" >
+                and delivery_date =  #{deliveryDate}
+            </if>
+
+            <if test="deliveryDateBegin != null" >
+                and delivery_date &gt;=  #{deliveryDateBegin}
+            </if>
+            <if test="deliveryDateEnd != null" >
+                and delivery_date &lt;  #{deliveryDateEnd}
+            </if>
+            <if test="deliveryPlace != null and deliveryPlace != ''" >
+                and delivery_place =  #{deliveryPlace}
+            </if>
+            <if test="orderDesc != null and orderDesc != ''" >
+                and order_desc =  #{orderDesc}
+            </if>
+        </trim>
+    </sql>
+   
+    <insert id="addDemoTradeOrder" useGeneratedKeys="true" keyProperty="id" parameterType="Object" >
+        insert into demo_trade_order(sku_name,sku_price,order_quantity,customer_name,delivery_date,delivery_place,order_desc)
+        values(#{skuName},#{skuPrice},#{orderQuantity},#{customerName},#{deliveryDate},#{deliveryPlace},#{orderDesc})
+    </insert>
+
+    <insert id="addDemoTradeOrderBatch" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List" >
+        insert ignore into demo_trade_order(sku_name,sku_price,order_quantity,customer_name,delivery_date,delivery_place,order_desc)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.skuName},#{item.skuPrice},#{item.orderQuantity},#{item.customerName},#{item.deliveryDate},#{item.deliveryPlace},#{item.orderDesc})
+        </foreach>
+    </insert>
+
+    <update id="updateDemoTradeOrder" parameterType="Object" >
+        update demo_trade_order set sku_name=#{skuName},sku_price=#{skuPrice},order_quantity=#{orderQuantity},customer_name=#{customerName},delivery_date=#{deliveryDate},delivery_place=#{deliveryPlace},order_desc=#{orderDesc} where id=#{id}
+    </update>
+ 
+    <update id="updateDemoTradeOrderBySelective" parameterType="Object" >
+        update demo_trade_order set 
+        <trim  suffixOverrides="," >
+            <if test="skuName != null  ">
+                sku_name=#{skuName},
+            </if>
+            <if test="skuPrice != null  ">
+                sku_price=#{skuPrice},
+            </if>
+            <if test="orderQuantity != null  ">
+                order_quantity=#{orderQuantity},
+            </if>
+            <if test="customerName != null  ">
+                customer_name=#{customerName},
+            </if>
+            <if test="deliveryDate != null  ">
+                delivery_date=#{deliveryDate},
+            </if>
+            <if test="deliveryPlace != null  ">
+                delivery_place=#{deliveryPlace},
+            </if>
+            <if test="orderDesc != null  ">
+                order_desc=#{orderDesc},
+            </if>
+        </trim> where id=#{id}
+    </update>
+
+    <delete id="deleteDemoTradeOrderById" parameterType="java.lang.Long">
+        delete 	from demo_trade_order where id = #{id}
+    </delete>
+
+    <delete id="deleteDemoTradeOrderByCondition" parameterType="Object">
+        delete 	from demo_trade_order 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <select id="queryDemoTradeOrderById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from demo_trade_order where id = #{id}
+    </select>
+
+    <select id="queryDemoTradeOrderByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from demo_trade_order 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <select id="queryDemoTradeOrderByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from demo_trade_order
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+  	
+</mapper>   

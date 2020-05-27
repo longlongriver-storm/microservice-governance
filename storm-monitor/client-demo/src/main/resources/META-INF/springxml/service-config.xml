@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       ">
+    <!--spring扫描范围-->
+    <context:component-scan base-package="com.storm" />
+    
+    <!--加载配置文件-->
+    <context:property-placeholder location="classpath:config.properties,classpath:jdbc.properties" />
+    <!--加载myBatis配置-->
+    <import resource="classpath*:META-INF/springxml/mybatis-datasource.xml"/>
+
+    <!-- AOP挡截自动扫描,expose-proxy属性是为了目标对象内部的自我调用无法实施切面而增加，expose-proxy="true" 表示将当前代理对象暴露出去，不然 AopContext.currentProxy() 获得的是 null -->
+    <aop:aspectj-autoproxy expose-proxy="true" />
+    
+    <bean id="controllerMethodInvokedInterceptor" class="com.storm.monitor.demo.monitor.ControllerMethodInvokedInterceptor" />
+    <bean id="demoBizMessageHandler" class="com.storm.monitor.demo.monitor.DemoBizMessageHandler" />
+    <!--监控抓取配置-->
+    <bean id="methodInvokedLogInterceptor" class="com.storm.monitor.core.client.collector.MethodInvokedLogInterceptor">
+        <property name="bizMessageHandler" ref="demoBizMessageHandler" />
+        <property name="onlineCrawlerConfig" ref="onlineCrawlerConfig" />
+        <property name="apmCommonConfig" ref="apmCommonConfig" />
+    </bean>
+    
+    <!--只配置在抓取客户端-->
+    <bean id="onlineCrawlerConfig" class="com.storm.monitor.core.client.OnlineCrawlerConfig" init-method="init" />
+    <bean id="apmCommonConfig" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.String">
+                <!--(采集端有效)日志存储模式，有两种：1、local：本地日志模式；2、remote：远程NIO发送模式-->
+                <entry key="LogStoreMode" value="remote" />
+                <!--(采集端有效)日志采集服务器地址，只在远程模式下有效,如果有多个地址，用“;”号隔开-->
+                <entry key="ServerAddress" value="127.0.0.1:20280" />
+            </map>
+        </constructor-arg>
+    </bean>
+   
+    <aop:config>
+        <aop:advisor pointcut="execution(* com.storm..*Controller.*(..))" advice-ref="controllerMethodInvokedInterceptor" order="0"/>
+        <!--需要排除com.storm.monitor.core，否则会循环调用-->
+        <aop:advisor pointcut="execution(* com.storm..*.*(..)) and !execution(* com.storm.monitor.core..*.*(..)) and !execution(* com.storm..dao.*Mapper.*(..))" advice-ref="methodInvokedLogInterceptor" order="1"/>
+    </aop:config>
+</beans>

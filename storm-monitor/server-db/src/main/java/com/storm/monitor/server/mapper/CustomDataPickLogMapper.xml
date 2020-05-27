@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.server.dao.CustomDataPickLogMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.server.model.CustomDataPickLog" >
+        <result column="id" property="id"/>
+        <result column="log_time" property="logTime" javaType="java.sql.Timestamp"/>
+        <result column="service_name" property="serviceName"/>
+        <result column="machine_address" property="machineAddress"/>
+        <result column="trace_id" property="traceId"/>
+        <result column="user_key" property="userKey"/>
+        <result column="pick_data" property="pickData"/>
+    
+    </resultMap>
+       
+                 
+    <!-- custom_data_pick_log table all fields -->
+    <sql id="Base_Column_List" >
+        id,log_time ,service_name ,machine_address ,trace_id ,user_key ,pick_data 
+    </sql>
+   
+   
+    <!-- 鏌ヨ鏉′欢 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="traceId != null and traceId != ''" >
+                and trace_id =  #{traceId}
+            </if>
+            <if test="userKey != null and userKey != ''" >
+                and user_key =  #{userKey}
+            </if>
+            <if test="pickData != null and pickData != ''" >
+                and pick_data =  #{pickData}
+            </if>
+        </trim>
+    </sql>
+   
+
+    <!-- 鎻掑叆璁板綍 -->
+    <insert id="addCustomDataPickLog" useGeneratedKeys="true" keyProperty="id" parameterType="Object" >
+        insert into custom_data_pick_log(log_time,service_name,machine_address,trace_id,user_key,pick_data)
+        values(#{logTime},#{serviceName},#{machineAddress},#{traceId},#{userKey},#{pickData})
+    </insert>
+
+    <insert id="addCustomDataPickLogBatch" parameterType="java.util.List" >
+        insert ignore into custom_data_pick_log(log_time,service_name,machine_address,trace_id,user_key,pick_data)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.logTime},#{item.serviceName},#{item.machineAddress},#{item.traceId},#{item.userKey},#{item.pickData})
+        </foreach>
+    </insert>
+
+    <!-- 鏍规嵁id锛屼慨鏀硅褰� -->  
+    <update id="updateCustomDataPickLog" parameterType="Object" >
+        update custom_data_pick_log set log_time=#{logTime},service_name=#{serviceName},machine_address=#{machineAddress},trace_id=#{traceId},user_key=#{userKey},pick_data=#{pickData} where id=#{id}
+    </update>
+ 
+    <!-- 淇敼璁板綍锛屽彧淇敼鍙笉涓虹┖鐨勫瓧娈� -->
+    <update id="updateCustomDataPickLogBySelective" parameterType="Object" >
+        update custom_data_pick_log set 
+        <trim  suffixOverrides="," >
+            <if test="traceId != null  ">
+                trace_id=#{traceId},
+            </if>
+            <if test="userKey != null  ">
+                user_key=#{userKey},
+            </if>
+            <if test="pickData != null  ">
+                pick_data=#{pickData},
+            </if>
+        </trim> where id=#{id}
+    </update>
+
+    <!-- 鍒犻櫎璁板綍 -->
+    <delete id="deleteCustomDataPickLogById" parameterType="java.util.Date">
+        delete 	from custom_data_pick_log where id = #{id}
+    </delete>
+
+    <!--鏍规嵁鏌ヨ鏉′欢鍒犻櫎璁板綍-->
+    <delete id="deleteCustomDataPickLogByCondition" parameterType="Object">
+        delete 	from custom_data_pick_log 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <!-- 鏍规嵁id鏌ヨ业务数据采集汇总表 -->
+    <select id="queryCustomDataPickLogById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from custom_data_pick_log where id = #{id}
+    </select>
+
+    <!-- 銆�业务数据采集汇总表銆� 鍒楄〃鎬绘暟-->
+    <select id="queryCustomDataPickLogByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from custom_data_pick_log 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <!-- 鏌ヨ銆�业务数据采集汇总表銆戝垪琛� -->
+    <select id="queryCustomDataPickLogByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from custom_data_pick_log
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+    
+    <select id="queryCustomDataPickLogBySQL" resultMap="BaseResultMap"  parameterType="String">
+        ${sql}
+    </select>
+  	
+</mapper>   

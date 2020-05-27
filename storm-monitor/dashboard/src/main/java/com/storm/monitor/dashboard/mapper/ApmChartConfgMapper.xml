@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.dashboard.dao.ApmChartConfgMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.dashboard.model.ApmChartConfg" >
+        <result column="id" property="id"/>
+        <result column="chart_name" property="chartName"/>
+        <result column="description" property="description"/>
+        <result column="chart_content" property="chartContent"/>
+        <result column="create_time" property="createTime" javaType="java.sql.Timestamp"/>
+        <result column="modify_time" property="modifyTime" javaType="java.sql.Timestamp"/>
+    
+    </resultMap>
+       
+                 
+    <!-- apm_chart_confg table all fields -->
+    <sql id="Base_Column_List" >
+        id ,chart_name ,description ,chart_content ,create_time ,modify_time 
+    </sql>
+   
+   
+    <!-- 鏌ヨ鏉′欢 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="chartName != null and chartName != ''" >
+                and chart_name like concat(concat('%',#{chartName},'%'))
+            </if>
+            <if test="description != null and description != ''" >
+                and description like concat(concat('%',#{description},'%'))
+            </if>
+            <if test="chartContent != null and chartContent != ''" >
+                and chart_content =  #{chartContent}
+            </if>
+            <if test="createTime != null" >
+                and create_time =  #{createTime}
+            </if>
+
+            <if test="createTimeBegin != null" >
+                and create_time &gt;=  #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null" >
+                and create_time &lt;  #{createTimeEnd}
+            </if>
+            <if test="modifyTime != null" >
+                and modify_time =  #{modifyTime}
+            </if>
+
+            <if test="modifyTimeBegin != null" >
+                and modify_time &gt;=  #{modifyTimeBegin}
+            </if>
+            <if test="modifyTimeEnd != null" >
+                and modify_time &lt;  #{modifyTimeEnd}
+            </if>
+        </trim>
+    </sql>
+   
+
+    <!-- 鎻掑叆璁板綍 -->
+    <insert id="addApmChartConfg" parameterType="Object" >
+        insert into apm_chart_confg(id,chart_name,description,chart_content,create_time,modify_time)
+        values(#{id},#{chartName},#{description},#{chartContent},#{createTime},#{modifyTime})
+    </insert>
+
+    <insert id="addApmChartConfgBatch" parameterType="java.util.List" >
+        insert ignore into apm_chart_confg(id,chart_name,description,chart_content,create_time,modify_time)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.chartName},#{item.description},#{item.chartContent},#{item.createTime},#{item.modifyTime})
+        </foreach>
+    </insert>
+
+    <!-- 鏍规嵁id锛屼慨鏀硅褰� -->  
+    <update id="updateApmChartConfg" parameterType="Object" >
+        update apm_chart_confg set id=#{id},chart_name=#{chartName},description=#{description},chart_content=#{chartContent},create_time=#{createTime},modify_time=#{modifyTime} where id=#{id}
+    </update>
+ 
+    <!-- 淇敼璁板綍锛屽彧淇敼鍙笉涓虹┖鐨勫瓧娈� -->
+    <update id="updateApmChartConfgBySelective" parameterType="Object" >
+        update apm_chart_confg set 
+        <trim  suffixOverrides="," >
+            <if test="chartName != null  ">
+                chart_name=#{chartName},
+            </if>
+            <if test="description != null  ">
+                description=#{description},
+            </if>
+            <if test="chartContent != null  ">
+                chart_content=#{chartContent},
+            </if>
+            <if test="createTime != null  ">
+                create_time=#{createTime},
+            </if>
+            <if test="modifyTime != null  ">
+                modify_time=#{modifyTime},
+            </if>
+        </trim> where id=#{id}
+    </update>
+
+    <!-- 鍒犻櫎璁板綍 -->
+    <delete id="deleteApmChartConfgById" parameterType="java.lang.String">
+        delete 	from apm_chart_confg where id = #{id}
+    </delete>
+
+    <!--鏍规嵁鏌ヨ鏉′欢鍒犻櫎璁板綍-->
+    <delete id="deleteApmChartConfgByCondition" parameterType="Object">
+        delete 	from apm_chart_confg 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <!-- 鏍规嵁id鏌ヨ图表配置 -->
+    <select id="queryApmChartConfgById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from apm_chart_confg where id = #{id}
+    </select>
+
+    <!-- 銆�图表配置銆� 鍒楄〃鎬绘暟-->
+    <select id="queryApmChartConfgByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from apm_chart_confg 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <!-- 鏌ヨ銆�图表配置銆戝垪琛� -->
+    <select id="queryApmChartConfgByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from apm_chart_confg
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+  	
+</mapper>   

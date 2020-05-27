@@ -1,0 +1,5 @@
+logging:
+    file: logs/storm-server.log
+    level:
+        org.springframework.web: INFO
+        com.storm: INFO   

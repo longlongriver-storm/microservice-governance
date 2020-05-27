@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.core.client.dao.ApmBusinessCfgMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.core.client.model.ApmBusinessCfg" >
+        <result column="id" property="id"/>
+        <result column="business_key" property="businessKey"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="class_method_name" property="classMethodName"/>
+        <result column="parameters" property="parameters"/>
+        <result column="return_result" property="returnResult"/>
+        <result column="create_time" property="createTime" javaType="java.sql.Timestamp"/>
+        <result column="modify_time" property="modifyTime" javaType="java.sql.Timestamp"/>
+    
+    </resultMap>
+       
+                       
+    <!-- apm_business_cfg table all fields -->
+    <sql id="Base_Column_List" >
+        id ,business_key ,title ,description ,class_method_name ,parameters ,return_result ,create_time ,modify_time 
+    </sql>
+   
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="businessKey != null and businessKey != ''" >
+                and business_key =  #{businessKey}
+            </if>
+            <if test="title != null and title != ''" >
+                and title =  #{title}
+            </if>
+            <if test="description != null and description != ''" >
+                and description =  #{description}
+            </if>
+            <if test="classMethodName != null and classMethodName != ''" >
+                and class_method_name =  #{classMethodName}
+            </if>
+            <if test="parameters != null and parameters != ''" >
+                and parameters =  #{parameters}
+            </if>
+            <if test="returnResult != null and returnResult != ''" >
+                and return_result =  #{returnResult}
+            </if>
+            <if test="createTime != null" >
+                and create_time =  #{createTime}
+            </if>
+
+            <if test="createTimeBegin != null" >
+                and create_time &gt;=  #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null" >
+                and create_time &lt;  #{createTimeEnd}
+            </if>
+            <if test="modifyTime != null" >
+                and modify_time =  #{modifyTime}
+            </if>
+
+            <if test="modifyTimeBegin != null" >
+                and modify_time &gt;=  #{modifyTimeBegin}
+            </if>
+            <if test="modifyTimeEnd != null" >
+                and modify_time &lt;  #{modifyTimeEnd}
+            </if>
+        </trim>
+    </sql>
+   
+
+    <insert id="addApmBusinessCfg" useGeneratedKeys="true" keyProperty="id" parameterType="Object" >
+        insert into apm_business_cfg(business_key,title,description,class_method_name,parameters,return_result,create_time,modify_time)
+        values(#{businessKey},#{title},#{description},#{classMethodName},#{parameters},#{returnResult},#{createTime},#{modifyTime})
+    </insert>
+ 
+    <update id="updateApmBusinessCfg" parameterType="Object" >
+        update apm_business_cfg set business_key=#{businessKey},title=#{title},description=#{description},class_method_name=#{classMethodName},parameters=#{parameters},return_result=#{returnResult},create_time=#{createTime},modify_time=#{modifyTime} where id=#{id}
+    </update>
+ 
+    <update id="updateApmBusinessCfgBySelective" parameterType="Object" >
+        update apm_business_cfg set 
+        <trim  suffixOverrides="," >
+            <if test="businessKey != null  ">
+                business_key=#{businessKey},
+            </if>
+            <if test="title != null  ">
+                title=#{title},
+            </if>
+            <if test="description != null  ">
+                description=#{description},
+            </if>
+            <if test="classMethodName != null  ">
+                class_method_name=#{classMethodName},
+            </if>
+            <if test="parameters != null  ">
+                parameters=#{parameters},
+            </if>
+            <if test="returnResult != null  ">
+                return_result=#{returnResult},
+            </if>
+            <if test="createTime != null  ">
+                create_time=#{createTime},
+            </if>
+            <if test="modifyTime != null  ">
+                modify_time=#{modifyTime},
+            </if>
+        </trim> where id=#{id}
+    </update>
+
+    <delete id="deleteApmBusinessCfgById" parameterType="java.lang.Integer">
+        delete 	from apm_business_cfg where id = #{id}
+    </delete>
+
+    <delete id="deleteApmBusinessCfgByCondition" parameterType="Object">
+        delete 	from apm_business_cfg 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <select id="queryApmBusinessCfgById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from apm_business_cfg where id = #{id}
+    </select>
+
+    <select id="queryApmBusinessCfgByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from apm_business_cfg 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <select id="queryApmBusinessCfgByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from apm_business_cfg
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+  	
+</mapper>   

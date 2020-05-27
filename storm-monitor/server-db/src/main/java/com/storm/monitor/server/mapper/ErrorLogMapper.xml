@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.server.dao.ErrorLogMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.server.model.ErrorLog" >
+        <result column="id" property="id"/>
+        <result column="log_time" property="logTime" javaType="java.sql.Timestamp"/>
+        <result column="machine_address" property="machineAddress"/>
+        <result column="error_type" property="errorType"/>
+        <result column="trace_id" property="traceId"/>
+        <result column="user_key" property="userKey"/>
+        <result column="error_code" property="errorCode"/>
+        <result column="error_msg" property="errorMsg"/>
+        <result column="service_name" property="serviceName"/>
+    </resultMap>
+       
+                   
+    <!-- error_log table all fields -->
+    <sql id="Base_Column_List" >
+        id,log_time ,machine_address ,error_type ,trace_id ,user_key ,error_code ,error_msg ,service_name
+    </sql>
+   
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="traceId != null and traceId != ''" >
+                and trace_id =  #{traceId}
+            </if>
+            <if test="userKey != null and userKey != ''" >
+                and user_key =  #{userKey}
+            </if>
+            <if test="machineAddress != null and machineAddress != ''" >
+                and machine_address =  #{machineAddress}
+            </if>
+            <if test="errorCode != null and errorCode != ''" >
+                and error_code =  #{errorCode}
+            </if>
+            <if test="errorMsg != null and errorMsg != ''" >
+                and error_msg like  #{errorMsg}
+            </if>
+            <if test="serviceName != null and serviceName != ''" >
+                and service_name =  #{serviceName}
+            </if>
+            <if test="logTimeBegin != null " >
+                and log_time &gt;=  #{logTimeBegin}
+            </if>
+            <if test="logTimeEnd != null " >
+                and log_time &lt;  #{logTimeEnd}
+            </if>
+        </trim>
+    </sql>
+   
+    <insert id="addErrorLog" useGeneratedKeys="true" keyProperty="id" parameterType="Object" >
+        insert into error_log(log_time,machine_address,error_type,trace_id,user_key,error_code,error_msg,service_name)
+        values(#{logTime},#{machineAddress},#{errorType},#{traceId},#{userKey},#{errorCode},#{errorMsg},#{serviceName})
+    </insert>
+    
+    <insert id="addErrorLogBatch" parameterType="java.util.List" >
+        insert ignore into error_log(log_time,machine_address,error_type,trace_id,user_key,error_code,error_msg,service_name)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.logTime},#{item.machineAddress},#{item.errorType},#{item.traceId},#{item.userKey},#{item.errorCode},#{item.errorMsg},#{item.serviceName})
+        </foreach>
+    </insert>
+
+    <update id="updateErrorLog" parameterType="Object" >
+        update error_log set log_time=#{logTime},machine_address=#{machineAddress},error_type=#{errorType},trace_id=#{traceId},user_key=#{userKey},error_code=#{errorCode},error_msg=#{errorMsg},service_name=#{serviceName} where id=#{id}
+    </update>
+ 
+    <update id="updateErrorLogBySelective" parameterType="Object" >
+        update error_log set 
+        <trim  suffixOverrides="," >
+            <if test="traceId != null  ">
+                trace_id=#{traceId},
+            </if>
+            <if test="userKey != null  ">
+                user_key=#{userKey},
+            </if>
+            <if test="errorCode != null  ">
+                error_code=#{errorCode},
+            </if>
+            <if test="errorMsg != null  ">
+                error_msg=#{errorMsg},
+            </if>
+            <if test="serviceName != null  ">
+                service_name=#{serviceName},
+            </if>
+        </trim> where id=#{id}
+    </update>
+
+    <delete id="deleteErrorLogById" parameterType="java.lang.Long">
+        delete 	from error_log where id = #{id}
+    </delete>
+
+    <delete id="deleteErrorLogByCondition" parameterType="Object">
+        delete 	from error_log 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <select id="queryErrorLogById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from error_log where id = #{id}
+    </select>
+
+    <select id="queryErrorLogByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from error_log 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <select id="queryErrorLogByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from error_log
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+    
+    <select id="queryErrorLogBySQL" resultMap="BaseResultMap"  parameterType="String">
+        ${sql}
+    </select>
+    
+    <select id="queryErrorLog2MapBySQL"  resultType="java.util.Map"  parameterType="String">
+        ${sql}
+    </select>
+  	
+</mapper>   

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.server.dao.DiskVolumeMonitorLogMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.server.model.DiskVolumeMonitorLog" >
+        <result column="log_time" property="logTime" javaType="java.sql.Timestamp"/>
+        <result column="machine_address" property="machineAddress"/>
+        <result column="volume_id" property="volumeId"/>
+        <result column="volume_total" property="volumeTotal"/>
+        <result column="volume_free" property="volumeFree"/>
+        <result column="volume_usable" property="volumeUsable"/>
+    
+    </resultMap>
+       
+                 
+    <!-- disk_volume_monitor_log table all fields -->
+    <sql id="Base_Column_List" >
+        log_time ,machine_address ,volume_id ,volume_total ,volume_free ,volume_usable 
+    </sql>
+   
+   
+    <!-- 鏌ヨ鏉′欢 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="volumeTotal != null" >
+                and volume_total =  #{volumeTotal}
+            </if>
+
+            <if test="volumeFree != null" >
+                and volume_free =  #{volumeFree}
+            </if>
+
+            <if test="volumeUsable != null" >
+                and volume_usable =  #{volumeUsable}
+            </if>
+
+        </trim>
+    </sql>
+   
+
+    <!-- 鎻掑叆璁板綍 -->
+    <insert id="addDiskVolumeMonitorLog" parameterType="Object" >
+        insert into disk_volume_monitor_log(log_time,machine_address,volume_id,volume_total,volume_free,volume_usable)
+        values(#{logTime},#{machineAddress},#{volumeId},#{volumeTotal},#{volumeFree},#{volumeUsable})
+    </insert>
+    
+    <insert id="addDiskVolumeMonitorLogBatch" parameterType="java.util.List" >
+        insert ignore into disk_volume_monitor_log(log_time,machine_address,volume_id,volume_total,volume_free,volume_usable)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.logTime},#{item.machineAddress},#{item.volumeId},#{item.volumeTotal},#{item.volumeFree},#{item.volumeUsable})
+        </foreach>
+    </insert>
+
+    <!-- 鏍规嵁id锛屼慨鏀硅褰� -->  
+    <update id="updateDiskVolumeMonitorLog" parameterType="Object" >
+        update disk_volume_monitor_log set log_time=#{logTime},machine_address=#{machineAddress},volume_id=#{volumeId},volume_total=#{volumeTotal},volume_free=#{volumeFree},volume_usable=#{volumeUsable} where log_time=#{logTime}
+    </update>
+ 
+    <!-- 淇敼璁板綍锛屽彧淇敼鍙笉涓虹┖鐨勫瓧娈� -->
+    <update id="updateDiskVolumeMonitorLogBySelective" parameterType="Object" >
+        update disk_volume_monitor_log set 
+        <trim  suffixOverrides="," >
+            <if test="volumeTotal != null  ">
+                volume_total=#{volumeTotal},
+            </if>
+            <if test="volumeFree != null  ">
+                volume_free=#{volumeFree},
+            </if>
+            <if test="volumeUsable != null  ">
+                volume_usable=#{volumeUsable},
+            </if>
+        </trim> where log_time=#{logTime}
+    </update>
+
+    <!-- 鍒犻櫎璁板綍 -->
+    <delete id="deleteDiskVolumeMonitorLogById" parameterType="java.util.Date">
+        delete 	from disk_volume_monitor_log where log_time = #{id}
+    </delete>
+
+    <!--鏍规嵁鏌ヨ鏉′欢鍒犻櫎璁板綍-->
+    <delete id="deleteDiskVolumeMonitorLogByCondition" parameterType="Object">
+        delete 	from disk_volume_monitor_log 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <!-- 鏍规嵁id鏌ヨ磁盘监控日志表 -->
+    <select id="queryDiskVolumeMonitorLogById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from disk_volume_monitor_log where log_time = #{id}
+    </select>
+
+    <!-- 銆�磁盘监控日志表銆� 鍒楄〃鎬绘暟-->
+    <select id="queryDiskVolumeMonitorLogByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from disk_volume_monitor_log 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <!-- 鏌ヨ銆�磁盘监控日志表銆戝垪琛� -->
+    <select id="queryDiskVolumeMonitorLogByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from disk_volume_monitor_log
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+  	
+</mapper>   

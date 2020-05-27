@@ -1,0 +1,18 @@
+server:
+    port: 9090
+    context-path: /
+    
+logging:
+    file: logs/storm-dashboard.log
+    level:
+        org.springframework.web: INFO
+        com.storm: INFO   
+        
+spring:
+    resources:
+        static-locations: classpath:/META-INF/static
+    freemarker:
+        suffix: .ftl
+        template-loader-path: classpath:/META-INF/templates/
+        cache: false
+        request-context-attribute: request

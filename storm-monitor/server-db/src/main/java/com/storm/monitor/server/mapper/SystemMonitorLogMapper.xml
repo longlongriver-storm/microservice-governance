@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.server.dao.SystemMonitorLogMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.server.model.SystemMonitorLog" >
+        <result column="log_time" property="logTime" javaType="java.sql.Timestamp"/>
+        <result column="machine_address" property="machineAddress"/>
+        <result column="disk_total" property="diskTotal"/>
+        <result column="disk_free" property="diskFree"/>
+        <result column="disk_usable" property="diskUsable"/>
+        <result column="memory_max" property="memoryMax"/>
+        <result column="memory_total" property="memoryTotal"/>
+        <result column="memory_free" property="memoryFree"/>
+        <result column="memory_heapUsage" property="memoryHeapusage"/>
+        <result column="memory_nonHeapUsage" property="memoryNonheapusage"/>
+        <result column="os_arch" property="osArch"/>
+        <result column="os_name" property="osName"/>
+        <result column="os_version" property="osVersion"/>
+        <result column="os_availableProcessors" property="osAvailableprocessors"/>
+        <result column="os_systemLoadAverage" property="osSystemloadaverage"/>
+        <result column="os_totalPhysicalMemory" property="osTotalphysicalmemory"/>
+        <result column="os_freePhysicalMemory" property="osFreephysicalmemory"/>
+        <result column="os_totalSwapSpace" property="osTotalswapspace"/>
+        <result column="os_freeSwapSpace" property="osFreeswapspace"/>
+        <result column="os_processTime" property="osProcesstime"/>
+        <result column="os_committedVirtualMemory" property="osCommittedvirtualmemory"/>
+        <result column="runtime_javaVersion" property="runtimeJavaversion"/>
+        <result column="runtime_startTime" property="runtimeStarttime"/>
+        <result column="runtime_upTime" property="runtimeUptime"/>
+        <result column="runtime_userDir" property="runtimeUserdir"/>
+        <result column="runtime_userName" property="runtimeUsername"/>
+        <result column="thread_active" property="threadActive"/>
+        <result column="thread_cat_count" property="threadCatCount"/>
+        <result column="thread_count" property="threadCount"/>
+        <result column="thread_daemon_count" property="threadDaemonCount"/>
+        <result column="thread_http" property="threadHttp"/>
+        <result column="thread_peek" property="threadPeek"/>
+        <result column="thread_started" property="threadStarted"/>
+        <result column="thread_total_started" property="threadTotalStarted"/>
+    
+    </resultMap>
+       
+                                                                         
+    <!-- system_monitor_log table all fields -->
+    <sql id="Base_Column_List" >
+        log_time ,machine_address ,disk_total ,disk_free ,disk_usable ,memory_max ,memory_total ,memory_free ,memory_heapUsage ,memory_nonHeapUsage ,os_arch ,os_name ,os_version ,os_availableProcessors ,os_systemLoadAverage ,os_totalPhysicalMemory ,os_freePhysicalMemory ,os_totalSwapSpace ,os_freeSwapSpace ,os_processTime ,os_committedVirtualMemory ,runtime_javaVersion ,runtime_startTime ,runtime_upTime ,runtime_userDir ,runtime_userName ,thread_active ,thread_cat_count ,thread_count ,thread_daemon_count ,thread_http ,thread_peek ,thread_started ,thread_total_started 
+    </sql>
+   
+   
+    <!-- 鏌ヨ鏉′欢 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="diskTotal != null" >
+                and disk_total =  #{diskTotal}
+            </if>
+
+            <if test="diskFree != null" >
+                and disk_free =  #{diskFree}
+            </if>
+
+            <if test="diskUsable != null" >
+                and disk_usable =  #{diskUsable}
+            </if>
+
+            <if test="memoryMax != null" >
+                and memory_max =  #{memoryMax}
+            </if>
+
+            <if test="memoryTotal != null" >
+                and memory_total =  #{memoryTotal}
+            </if>
+
+            <if test="memoryFree != null" >
+                and memory_free =  #{memoryFree}
+            </if>
+
+            <if test="memoryHeapusage != null" >
+                and memory_heapUsage =  #{memoryHeapusage}
+            </if>
+
+            <if test="memoryNonheapusage != null" >
+                and memory_nonHeapUsage =  #{memoryNonheapusage}
+            </if>
+
+            <if test="osArch != null and osArch != ''" >
+                and os_arch =  #{osArch}
+            </if>
+            <if test="osName != null and osName != ''" >
+                and os_name =  #{osName}
+            </if>
+            <if test="osVersion != null and osVersion != ''" >
+                and os_version =  #{osVersion}
+            </if>
+            <if test="osAvailableprocessors != null" >
+                and os_availableProcessors =  #{osAvailableprocessors}
+            </if>
+
+            <if test="osSystemloadaverage != null" >
+                and os_systemLoadAverage =  #{osSystemloadaverage}
+            </if>
+
+            <if test="osTotalphysicalmemory != null" >
+                and os_totalPhysicalMemory =  #{osTotalphysicalmemory}
+            </if>
+
+            <if test="osFreephysicalmemory != null" >
+                and os_freePhysicalMemory =  #{osFreephysicalmemory}
+            </if>
+
+            <if test="osTotalswapspace != null" >
+                and os_totalSwapSpace =  #{osTotalswapspace}
+            </if>
+
+            <if test="osFreeswapspace != null" >
+                and os_freeSwapSpace =  #{osFreeswapspace}
+            </if>
+
+            <if test="osProcesstime != null" >
+                and os_processTime =  #{osProcesstime}
+            </if>
+
+            <if test="osCommittedvirtualmemory != null" >
+                and os_committedVirtualMemory =  #{osCommittedvirtualmemory}
+            </if>
+
+            <if test="runtimeJavaversion != null and runtimeJavaversion != ''" >
+                and runtime_javaVersion =  #{runtimeJavaversion}
+            </if>
+            <if test="runtimeStarttime != null" >
+                and runtime_startTime =  #{runtimeStarttime}
+            </if>
+
+            <if test="runtimeUptime != null" >
+                and runtime_upTime =  #{runtimeUptime}
+            </if>
+
+            <if test="runtimeUserdir != null and runtimeUserdir != ''" >
+                and runtime_userDir =  #{runtimeUserdir}
+            </if>
+            <if test="runtimeUsername != null and runtimeUsername != ''" >
+                and runtime_userName =  #{runtimeUsername}
+            </if>
+            <if test="threadActive != null" >
+                and thread_active =  #{threadActive}
+            </if>
+
+            <if test="threadCatCount != null" >
+                and thread_cat_count =  #{threadCatCount}
+            </if>
+
+            <if test="threadCount != null" >
+                and thread_count =  #{threadCount}
+            </if>
+
+            <if test="threadDaemonCount != null" >
+                and thread_daemon_count =  #{threadDaemonCount}
+            </if>
+
+            <if test="threadHttp != null" >
+                and thread_http =  #{threadHttp}
+            </if>
+
+            <if test="threadPeek != null" >
+                and thread_peek =  #{threadPeek}
+            </if>
+
+            <if test="threadStarted != null" >
+                and thread_started =  #{threadStarted}
+            </if>
+
+            <if test="threadTotalStarted != null" >
+                and thread_total_started =  #{threadTotalStarted}
+            </if>
+
+        </trim>
+    </sql>
+   
+
+    <!-- 鎻掑叆璁板綍 -->
+    <insert id="addSystemMonitorLog" parameterType="Object" >
+        insert into system_monitor_log(log_time,machine_address,disk_total,disk_free,disk_usable,memory_max,memory_total,memory_free,memory_heapUsage,memory_nonHeapUsage,os_arch,os_name,os_version,os_availableProcessors,os_systemLoadAverage,os_totalPhysicalMemory,os_freePhysicalMemory,os_totalSwapSpace,os_freeSwapSpace,os_processTime,os_committedVirtualMemory,runtime_javaVersion,runtime_startTime,runtime_upTime,runtime_userDir,runtime_userName,thread_active,thread_cat_count,thread_count,thread_daemon_count,thread_http,thread_peek,thread_started,thread_total_started)
+        values(#{logTime},#{machineAddress},#{diskTotal},#{diskFree},#{diskUsable},#{memoryMax},#{memoryTotal},#{memoryFree},#{memoryHeapusage},#{memoryNonheapusage},#{osArch},#{osName},#{osVersion},#{osAvailableprocessors},#{osSystemloadaverage},#{osTotalphysicalmemory},#{osFreephysicalmemory},#{osTotalswapspace},#{osFreeswapspace},#{osProcesstime},#{osCommittedvirtualmemory},#{runtimeJavaversion},#{runtimeStarttime},#{runtimeUptime},#{runtimeUserdir},#{runtimeUsername},#{threadActive},#{threadCatCount},#{threadCount},#{threadDaemonCount},#{threadHttp},#{threadPeek},#{threadStarted},#{threadTotalStarted})
+    </insert>
+    
+    <insert id="addSystemMonitorLogBatch" parameterType="java.util.List" >
+        insert ignore into system_monitor_log(log_time,machine_address,disk_total,disk_free,disk_usable,memory_max,memory_total,memory_free,memory_heapUsage,memory_nonHeapUsage,os_arch,os_name,os_version,os_availableProcessors,os_systemLoadAverage,os_totalPhysicalMemory,os_freePhysicalMemory,os_totalSwapSpace,os_freeSwapSpace,os_processTime,os_committedVirtualMemory,runtime_javaVersion,runtime_startTime,runtime_upTime,runtime_userDir,runtime_userName,thread_active,thread_cat_count,thread_count,thread_daemon_count,thread_http,thread_peek,thread_started,thread_total_started)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.logTime},#{item.machineAddress},#{item.diskTotal},#{item.diskFree},#{item.diskUsable},#{item.memoryMax},#{item.memoryTotal},#{item.memoryFree},#{item.memoryHeapusage},#{item.memoryNonheapusage},#{item.osArch},#{item.osName},#{item.osVersion},#{item.osAvailableprocessors},#{item.osSystemloadaverage},#{item.osTotalphysicalmemory},#{item.osFreephysicalmemory},#{item.osTotalswapspace},#{item.osFreeswapspace},#{item.osProcesstime},#{item.osCommittedvirtualmemory},#{item.runtimeJavaversion},#{item.runtimeStarttime},#{item.runtimeUptime},#{item.runtimeUserdir},#{item.runtimeUsername},#{item.threadActive},#{item.threadCatCount},#{item.threadCount},#{item.threadDaemonCount},#{item.threadHttp},#{item.threadPeek},#{item.threadStarted},#{item.threadTotalStarted})
+        </foreach>
+    </insert>
+
+    <!-- 鏍规嵁id锛屼慨鏀硅褰� -->  
+    <update id="updateSystemMonitorLog" parameterType="Object" >
+        update system_monitor_log set log_time=#{logTime},machine_address=#{machineAddress},disk_total=#{diskTotal},disk_free=#{diskFree},disk_usable=#{diskUsable},memory_max=#{memoryMax},memory_total=#{memoryTotal},memory_free=#{memoryFree},memory_heapUsage=#{memoryHeapusage},memory_nonHeapUsage=#{memoryNonheapusage},os_arch=#{osArch},os_name=#{osName},os_version=#{osVersion},os_availableProcessors=#{osAvailableprocessors},os_systemLoadAverage=#{osSystemloadaverage},os_totalPhysicalMemory=#{osTotalphysicalmemory},os_freePhysicalMemory=#{osFreephysicalmemory},os_totalSwapSpace=#{osTotalswapspace},os_freeSwapSpace=#{osFreeswapspace},os_processTime=#{osProcesstime},os_committedVirtualMemory=#{osCommittedvirtualmemory},runtime_javaVersion=#{runtimeJavaversion},runtime_startTime=#{runtimeStarttime},runtime_upTime=#{runtimeUptime},runtime_userDir=#{runtimeUserdir},runtime_userName=#{runtimeUsername},thread_active=#{threadActive},thread_cat_count=#{threadCatCount},thread_count=#{threadCount},thread_daemon_count=#{threadDaemonCount},thread_http=#{threadHttp},thread_peek=#{threadPeek},thread_started=#{threadStarted},thread_total_started=#{threadTotalStarted} where log_time=#{logTime}
+    </update>
+ 
+    <!-- 淇敼璁板綍锛屽彧淇敼鍙笉涓虹┖鐨勫瓧娈� -->
+    <update id="updateSystemMonitorLogBySelective" parameterType="Object" >
+        update system_monitor_log set 
+        <trim  suffixOverrides="," >
+            <if test="diskTotal != null  ">
+                disk_total=#{diskTotal},
+            </if>
+            <if test="diskFree != null  ">
+                disk_free=#{diskFree},
+            </if>
+            <if test="diskUsable != null  ">
+                disk_usable=#{diskUsable},
+            </if>
+            <if test="memoryMax != null  ">
+                memory_max=#{memoryMax},
+            </if>
+            <if test="memoryTotal != null  ">
+                memory_total=#{memoryTotal},
+            </if>
+            <if test="memoryFree != null  ">
+                memory_free=#{memoryFree},
+            </if>
+            <if test="memoryHeapusage != null  ">
+                memory_heapUsage=#{memoryHeapusage},
+            </if>
+            <if test="memoryNonheapusage != null  ">
+                memory_nonHeapUsage=#{memoryNonheapusage},
+            </if>
+            <if test="osArch != null  ">
+                os_arch=#{osArch},
+            </if>
+            <if test="osName != null  ">
+                os_name=#{osName},
+            </if>
+            <if test="osVersion != null  ">
+                os_version=#{osVersion},
+            </if>
+            <if test="osAvailableprocessors != null  ">
+                os_availableProcessors=#{osAvailableprocessors},
+            </if>
+            <if test="osSystemloadaverage != null  ">
+                os_systemLoadAverage=#{osSystemloadaverage},
+            </if>
+            <if test="osTotalphysicalmemory != null  ">
+                os_totalPhysicalMemory=#{osTotalphysicalmemory},
+            </if>
+            <if test="osFreephysicalmemory != null  ">
+                os_freePhysicalMemory=#{osFreephysicalmemory},
+            </if>
+            <if test="osTotalswapspace != null  ">
+                os_totalSwapSpace=#{osTotalswapspace},
+            </if>
+            <if test="osFreeswapspace != null  ">
+                os_freeSwapSpace=#{osFreeswapspace},
+            </if>
+            <if test="osProcesstime != null  ">
+                os_processTime=#{osProcesstime},
+            </if>
+            <if test="osCommittedvirtualmemory != null  ">
+                os_committedVirtualMemory=#{osCommittedvirtualmemory},
+            </if>
+            <if test="runtimeJavaversion != null  ">
+                runtime_javaVersion=#{runtimeJavaversion},
+            </if>
+            <if test="runtimeStarttime != null  ">
+                runtime_startTime=#{runtimeStarttime},
+            </if>
+            <if test="runtimeUptime != null  ">
+                runtime_upTime=#{runtimeUptime},
+            </if>
+            <if test="runtimeUserdir != null  ">
+                runtime_userDir=#{runtimeUserdir},
+            </if>
+            <if test="runtimeUsername != null  ">
+                runtime_userName=#{runtimeUsername},
+            </if>
+            <if test="threadActive != null  ">
+                thread_active=#{threadActive},
+            </if>
+            <if test="threadCatCount != null  ">
+                thread_cat_count=#{threadCatCount},
+            </if>
+            <if test="threadCount != null  ">
+                thread_count=#{threadCount},
+            </if>
+            <if test="threadDaemonCount != null  ">
+                thread_daemon_count=#{threadDaemonCount},
+            </if>
+            <if test="threadHttp != null  ">
+                thread_http=#{threadHttp},
+            </if>
+            <if test="threadPeek != null  ">
+                thread_peek=#{threadPeek},
+            </if>
+            <if test="threadStarted != null  ">
+                thread_started=#{threadStarted},
+            </if>
+            <if test="threadTotalStarted != null  ">
+                thread_total_started=#{threadTotalStarted},
+            </if>
+        </trim> where log_time=#{logTime}
+    </update>
+
+    <!-- 鍒犻櫎璁板綍 -->
+    <delete id="deleteSystemMonitorLogById" parameterType="java.util.Date">
+        delete 	from system_monitor_log where log_time = #{id}
+    </delete>
+
+    <!--鏍规嵁鏌ヨ鏉′欢鍒犻櫎璁板綍-->
+    <delete id="deleteSystemMonitorLogByCondition" parameterType="Object">
+        delete 	from system_monitor_log 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <!-- 鏍规嵁id鏌ヨ系统监控日志表 -->
+    <select id="querySystemMonitorLogById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from system_monitor_log where log_time = #{id}
+    </select>
+
+    <!-- 銆�系统监控日志表銆� 鍒楄〃鎬绘暟-->
+    <select id="querySystemMonitorLogByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from system_monitor_log 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <!-- 鏌ヨ銆�系统监控日志表銆戝垪琛� -->
+    <select id="querySystemMonitorLogByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from system_monitor_log
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+    
+    <select id="querySystemMonitorLogBySQL" resultMap="BaseResultMap"  parameterType="String">
+        ${sql}
+    </select>
+  	
+</mapper>   

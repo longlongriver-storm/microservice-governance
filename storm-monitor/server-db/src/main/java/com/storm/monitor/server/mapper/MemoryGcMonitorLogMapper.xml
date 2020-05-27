@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.storm.monitor.server.dao.MemoryGcMonitorLogMapper" > 
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.storm.monitor.server.model.MemoryGcMonitorLog" >
+        <result column="log_time" property="logTime" javaType="java.sql.Timestamp"/>
+        <result column="machine_address" property="machineAddress"/>
+        <result column="gc_name" property="gcName"/>
+        <result column="gc_count" property="gcCount"/>
+        <result column="gc_time" property="gcTime"/>
+    
+    </resultMap>
+       
+               
+    <!-- memory_gc_monitor_log table all fields -->
+    <sql id="Base_Column_List" >
+        log_time ,machine_address ,gc_name ,gc_count ,gc_time 
+    </sql>
+   
+   
+    <!-- 鏌ヨ鏉′欢 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim  suffixOverrides="," >
+            <if test="gcCount != null" >
+                and gc_count =  #{gcCount}
+            </if>
+
+            <if test="gcTime != null" >
+                and gc_time =  #{gcTime}
+            </if>
+
+        </trim>
+    </sql>
+   
+
+    <!-- 鎻掑叆璁板綍 -->
+    <insert id="addMemoryGcMonitorLog" parameterType="Object" >
+        insert into memory_gc_monitor_log(log_time,machine_address,gc_name,gc_count,gc_time)
+        values(#{logTime},#{machineAddress},#{gcName},#{gcCount},#{gcTime})
+    </insert>
+    
+    <insert id="addMemoryGcMonitorLogBatch" parameterType="java.util.List" >
+        insert ignore into memory_gc_monitor_log(log_time,machine_address,gc_name,gc_count,gc_time)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.logTime},#{item.machineAddress},#{item.gcName},#{item.gcCount},#{item.gcTime})
+        </foreach>
+    </insert>
+
+    <!-- 鏍规嵁id锛屼慨鏀硅褰� -->  
+    <update id="updateMemoryGcMonitorLog" parameterType="Object" >
+        update memory_gc_monitor_log set log_time=#{logTime},machine_address=#{machineAddress},gc_name=#{gcName},gc_count=#{gcCount},gc_time=#{gcTime} where log_time=#{logTime}
+    </update>
+ 
+    <!-- 淇敼璁板綍锛屽彧淇敼鍙笉涓虹┖鐨勫瓧娈� -->
+    <update id="updateMemoryGcMonitorLogBySelective" parameterType="Object" >
+        update memory_gc_monitor_log set 
+        <trim  suffixOverrides="," >
+            <if test="gcCount != null  ">
+                gc_count=#{gcCount},
+            </if>
+            <if test="gcTime != null  ">
+                gc_time=#{gcTime},
+            </if>
+        </trim> where log_time=#{logTime}
+    </update>
+
+    <!-- 鍒犻櫎璁板綍 -->
+    <delete id="deleteMemoryGcMonitorLogById" parameterType="java.util.Date">
+        delete 	from memory_gc_monitor_log where log_time = #{id}
+    </delete>
+
+    <!--鏍规嵁鏌ヨ鏉′欢鍒犻櫎璁板綍-->
+    <delete id="deleteMemoryGcMonitorLogByCondition" parameterType="Object">
+        delete 	from memory_gc_monitor_log 
+        <include refid="Example_Where_Clause"/>
+    </delete>
+ 
+    <!-- 鏍规嵁id鏌ヨ内存GC监控日志表 -->
+    <select id="queryMemoryGcMonitorLogById"  resultMap="BaseResultMap" parameterType="Object">
+        select <include refid="Base_Column_List" /> 
+        from memory_gc_monitor_log where log_time = #{id}
+    </select>
+
+    <!-- 銆�内存GC监控日志表銆� 鍒楄〃鎬绘暟-->
+    <select id="queryMemoryGcMonitorLogByCount" resultType="java.lang.Integer"  parameterType="Object">
+        select count(1) from memory_gc_monitor_log 
+        <include refid="Example_Where_Clause"/>
+    </select>
+  	
+    <!-- 鏌ヨ銆�内存GC监控日志表銆戝垪琛� -->
+    <select id="queryMemoryGcMonitorLogByPage" resultMap="BaseResultMap"  parameterType="Object">
+        select 
+        <include refid="Base_Column_List"/>
+        from memory_gc_monitor_log
+        <include refid="Example_Where_Clause"/>
+        <if test="page.sortColumn != null and page.sortColumn != ''" >
+            order by ${page.sortColumn} 
+        </if>
+        <if test="page.sortColumn != null and page.sortColumn != '' and page.orderBy!=null and page.orderBy!=''" >
+            ${page.orderBy}
+        </if>    
+        limit ${page.begin},${page.length}
+    </select>
+    
+    <select id="queryMemoryGcMonitorLogBySQL" resultMap="BaseResultMap"  parameterType="String">
+        ${sql}
+    </select>
+  	
+</mapper>   
