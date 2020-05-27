@@ -1,18 +1,11 @@
 CREATE DATABASE IF NOT EXISTS storm_monitor;
 use storm_monitor;
 
+drop table if exists demo_trade_order;
+
 drop table if exists apm_business_cfg;
+
 drop table if exists apm_chart_confg;
-
-drop index custom_data_pick_log_Id6 on custom_data_pick_log;
-
-drop index custom_data_pick_log_Id5 on custom_data_pick_log;
-
-drop index custom_data_pick_log_Id4 on custom_data_pick_log;
-
-drop index custom_data_pick_log_Id3 on custom_data_pick_log;
-
-drop index custom_data_pick_log_Id2 on custom_data_pick_log;
 
 drop table if exists custom_data_pick_log;
 
@@ -23,16 +16,6 @@ drop table if exists dao_monitor_log_day;
 drop table if exists dao_monitor_log_hour;
 
 drop table if exists disk_volume_monitor_log;
-
-drop index error_log_Id6 on error_log;
-
-drop index error_log_Id5 on error_log;
-
-drop index error_log_Id4 on error_log;
-
-drop index error_log_Id3 on error_log;
-
-drop index error_log_Id2 on error_log;
 
 drop table if exists error_log;
 
@@ -52,32 +35,32 @@ drop table if exists system_monitor_log;
 create table apm_chart_confg
 (
    id                   varchar(40) not null comment 'ID',
-   chart_name           varchar(200) not null comment 'Í¼±íÃû³Æ',
-   description          varchar(400) not null comment 'Í¼±íËµÃ÷',
-   chart_content        text not null comment 'Í¼±íÄÚÈİ',
-   create_time          datetime not null comment '´´½¨Ê±¼ä',
-   modify_time          datetime not null comment 'ĞŞ¸ÄÊ±¼ä',
+   chart_name           varchar(200) not null comment 'å›¾è¡¨åç§°',
+   description          varchar(400) not null comment 'å›¾è¡¨è¯´æ˜',
+   chart_content        text not null comment 'å›¾è¡¨å†…å®¹',
+   create_time          datetime not null comment 'åˆ›å»ºæ—¶é—´',
+   modify_time          datetime not null comment 'ä¿®æ”¹æ—¶é—´',
    primary key (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table apm_chart_confg comment 'Í¼±íÅäÖÃ';
+alter table apm_chart_confg comment 'å›¾è¡¨é…ç½®';
 
 /*==============================================================*/
 /* Table: custom_data_pick_log                                  */
 /*==============================================================*/
 create table custom_data_pick_log
 (
-   id                   bigint not null auto_increment comment 'Ö÷¼ü',
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   service_name         varchar(250) not null comment '·şÎñÃû³Æ',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   trace_id             varchar(100) default ' ' comment 'µ÷ÓÃÁ´ID',
-   user_key             varchar(50) default ' ' comment 'ÓÃ»§±êÊ¶',
-   pick_data            varchar(2000) default ' ' comment '×¥È¡Êı¾İ',
+   id                   bigint not null auto_increment comment 'ä¸»é”®',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   trace_id             varchar(100) default ' ' comment 'è°ƒç”¨é“¾ID',
+   user_key             varchar(50) default ' ' comment 'ç”¨æˆ·æ ‡è¯†',
+   pick_data            varchar(2000) default ' ' comment 'æŠ“å–æ•°æ®',
    primary key (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table custom_data_pick_log comment '×Ô¶¨ÒåÒµÎñ²É¼¯ÈÕÖ¾±í';
+alter table custom_data_pick_log comment 'è‡ªå®šä¹‰ä¸šåŠ¡é‡‡é›†æ—¥å¿—è¡¨';
 
 /*==============================================================*/
 /* Index: custom_data_pick_log_Id2                              */
@@ -124,104 +107,104 @@ create index custom_data_pick_log_Id6 on custom_data_pick_log
 /*==============================================================*/
 create table dao_monitor_log
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   service_name         varchar(600) not null comment '·şÎñÃû³Æ',
-   success_count        bigint comment '³É¹¦´ÎÊı',
-   failure_count        bigint comment 'Ê§°Ü´ÎÊı',
-   avg_elapsed          bigint comment 'Æ½¾ùÑÓÊ±',
-   max_elapsed          bigint comment '×î´óÑÓÊ±',
-   min_elapsed          bigint comment '×îĞ¡ÑÓÊ±',
-   lastest_error_msg    varchar(400) comment '×îĞÂ´íÎóÀà',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   success_count        bigint comment 'æˆåŠŸæ¬¡æ•°',
+   failure_count        bigint comment 'å¤±è´¥æ¬¡æ•°',
+   avg_elapsed          bigint comment 'å¹³å‡å»¶æ—¶',
+   max_elapsed          bigint comment 'æœ€å¤§å»¶æ—¶',
+   min_elapsed          bigint comment 'æœ€å°å»¶æ—¶',
+   lastest_error_msg    varchar(400) comment 'æœ€æ–°é”™è¯¯ç±»',
    primary key (log_time, machine_address, service_name),
-   key AK_Identifier_2 (success_count),
-   key AK_Identifier_3 (failure_count),
-   key AK_Identifier_4 (avg_elapsed),
-   key AK_Identifier_5 (max_elapsed)
-);
+   key AK_dml_2 (success_count),
+   key AK_dml_3 (failure_count),
+   key AK_dml_4 (avg_elapsed),
+   key AK_dml_5 (max_elapsed)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table dao_monitor_log comment 'DAO·ÃÎÊ·ÖÖÓ¼¶Í³¼Æ±í';
+alter table dao_monitor_log comment 'DAOè®¿é—®åˆ†é’Ÿçº§ç»Ÿè®¡è¡¨';
 
 /*==============================================================*/
 /* Table: dao_monitor_log_day                                   */
 /*==============================================================*/
 create table dao_monitor_log_day
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   service_name         varchar(600) not null comment '·şÎñÃû³Æ',
-   success_count        bigint comment '³É¹¦´ÎÊı',
-   failure_count        bigint comment 'Ê§°Ü´ÎÊı',
-   avg_elapsed          bigint comment 'Æ½¾ùÑÓÊ±',
-   max_elapsed          bigint comment '×î´óÑÓÊ±',
-   min_elapsed          bigint comment '×îĞ¡ÑÓÊ±',
-   lastest_error_msg    varchar(400) comment '×îĞÂ´íÎóÀà',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   success_count        bigint comment 'æˆåŠŸæ¬¡æ•°',
+   failure_count        bigint comment 'å¤±è´¥æ¬¡æ•°',
+   avg_elapsed          bigint comment 'å¹³å‡å»¶æ—¶',
+   max_elapsed          bigint comment 'æœ€å¤§å»¶æ—¶',
+   min_elapsed          bigint comment 'æœ€å°å»¶æ—¶',
+   lastest_error_msg    varchar(400) comment 'æœ€æ–°é”™è¯¯ç±»',
    primary key (log_time, machine_address, service_name),
-   key AK_Identifier_2 (success_count),
-   key AK_Identifier_3 (failure_count),
-   key AK_Identifier_4 (avg_elapsed),
-   key AK_Identifier_5 (max_elapsed)
-);
+   key AK_dmld_2 (success_count),
+   key AK_dmld_3 (failure_count),
+   key AK_dmld_4 (avg_elapsed),
+   key AK_dmld_5 (max_elapsed)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table dao_monitor_log_day comment 'DAO¼à¿ØÌì»ã×Ü±í';
+alter table dao_monitor_log_day comment 'DAOç›‘æ§å¤©æ±‡æ€»è¡¨';
 
 /*==============================================================*/
 /* Table: dao_monitor_log_hour                                  */
 /*==============================================================*/
 create table dao_monitor_log_hour
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   service_name         varchar(600) not null comment '·şÎñÃû³Æ',
-   success_count        bigint comment '³É¹¦´ÎÊı',
-   failure_count        bigint comment 'Ê§°Ü´ÎÊı',
-   avg_elapsed          bigint comment 'Æ½¾ùÑÓÊ±',
-   max_elapsed          bigint comment '×î´óÑÓÊ±',
-   min_elapsed          bigint comment '×îĞ¡ÑÓÊ±',
-   lastest_error_msg    varchar(400) comment '×îĞÂ´íÎóÀà',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   success_count        bigint comment 'æˆåŠŸæ¬¡æ•°',
+   failure_count        bigint comment 'å¤±è´¥æ¬¡æ•°',
+   avg_elapsed          bigint comment 'å¹³å‡å»¶æ—¶',
+   max_elapsed          bigint comment 'æœ€å¤§å»¶æ—¶',
+   min_elapsed          bigint comment 'æœ€å°å»¶æ—¶',
+   lastest_error_msg    varchar(400) comment 'æœ€æ–°é”™è¯¯ç±»',
    primary key (log_time, machine_address, service_name),
-   key AK_Identifier_2 (success_count),
-   key AK_Identifier_3 (failure_count),
-   key AK_Identifier_4 (avg_elapsed),
-   key AK_Identifier_5 (max_elapsed)
-);
+   key AK_dmlh_2 (success_count),
+   key AK_dmlh_3 (failure_count),
+   key AK_dmlh_4 (avg_elapsed),
+   key AK_dmlh_5 (max_elapsed)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table dao_monitor_log_hour comment 'DAO¼à¿ØĞ¡Ê±»ã×Ü±í';
+alter table dao_monitor_log_hour comment 'DAOç›‘æ§å°æ—¶æ±‡æ€»è¡¨';
 
 /*==============================================================*/
 /* Table: disk_volume_monitor_log                               */
 /*==============================================================*/
 create table disk_volume_monitor_log
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   volume_id            varchar(100) not null comment '´ÅÅÌ¾íID',
-   volume_total         bigint comment '´ÅÅÌ¾í×ÜÈİÁ¿',
-   volume_free          bigint comment '´ÅÅÌ¾íÎ´·ÖÅäÈİÁ¿',
-   volume_usable        bigint comment '´ÅÅÌ¾í¿ÉÓÃÈİÁ¿',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   volume_id            varchar(100) not null comment 'ç£ç›˜å·ID',
+   volume_total         bigint comment 'ç£ç›˜å·æ€»å®¹é‡',
+   volume_free          bigint comment 'ç£ç›˜å·æœªåˆ†é…å®¹é‡',
+   volume_usable        bigint comment 'ç£ç›˜å·å¯ç”¨å®¹é‡',
    primary key (log_time, machine_address, volume_id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table disk_volume_monitor_log comment '´ÅÅÌ¼à¿ØÈÕÖ¾±í';
+alter table disk_volume_monitor_log comment 'ç£ç›˜ç›‘æ§æ—¥å¿—è¡¨';
 
 /*==============================================================*/
 /* Table: error_log                                             */
 /*==============================================================*/
 create table error_log
 (
-   id                   bigint not null auto_increment comment 'Ö÷¼ü',
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   service_name         varchar(250) not null comment '·şÎñÃû³Æ',
-   error_type           int comment '1£ºÒµÎñ´íÎó£¬0£ºÏµÍ³´íÎó',
-   trace_id             varchar(100) default ' ' comment 'µ÷ÓÃÁ´ID',
-   user_key             varchar(50) default ' ' comment 'ÓÃ»§±êÊ¶',
-   error_code           varchar(400) default ' ' comment '´íÎó´úÂë',
-   error_msg            varchar(4000) default ' ' comment '´íÎóĞÅÏ¢',
+   id                   bigint not null auto_increment comment 'ä¸»é”®',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   error_type           int comment '1ï¼šä¸šåŠ¡é”™è¯¯ï¼Œ0ï¼šç³»ç»Ÿé”™è¯¯',
+   trace_id             varchar(100) default ' ' comment 'è°ƒç”¨é“¾ID',
+   user_key             varchar(50) default ' ' comment 'ç”¨æˆ·æ ‡è¯†',
+   error_code           varchar(400) default ' ' comment 'é”™è¯¯ä»£ç ',
+   error_msg            varchar(4000) default ' ' comment 'é”™è¯¯ä¿¡æ¯',
    primary key (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table error_log comment 'Òì³£ĞÅÏ¢»ã×Ü±í';
+alter table error_log comment 'å¼‚å¸¸ä¿¡æ¯æ±‡æ€»è¡¨';
 
 /*==============================================================*/
 /* Index: error_log_Id2                                         */
@@ -268,142 +251,175 @@ create index error_log_Id6 on error_log
 /*==============================================================*/
 create table memory_gc_monitor_log
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   gc_name              varchar(100) not null comment 'GCÃû³Æ',
-   gc_count             bigint comment 'GC´ÎÊı',
-   gc_time              bigint comment 'GCºÄÊ±',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   gc_name              varchar(100) not null comment 'GCåç§°',
+   gc_count             bigint comment 'GCæ¬¡æ•°',
+   gc_time              bigint comment 'GCè€—æ—¶',
    primary key (log_time, machine_address, gc_name)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table memory_gc_monitor_log comment 'ÄÚ´æGC¼à¿ØÈÕÖ¾±í';
+alter table memory_gc_monitor_log comment 'å†…å­˜GCç›‘æ§æ—¥å¿—è¡¨';
 
 /*==============================================================*/
 /* Table: service_monitor_log                                   */
 /*==============================================================*/
 create table service_monitor_log
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   service_name         varchar(600) not null comment '·şÎñÃû³Æ',
-   success_count        bigint comment '³É¹¦´ÎÊı',
-   failure_count        bigint comment 'Ê§°Ü´ÎÊı',
-   avg_elapsed          bigint comment 'Æ½¾ùÑÓÊ±',
-   max_elapsed          bigint comment '×î´óÑÓÊ±',
-   min_elapsed          bigint comment '×îĞ¡ÑÓÊ±',
-   lastest_error_msg    varchar(400) comment '×îĞÂ´íÎóÀà',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   success_count        bigint comment 'æˆåŠŸæ¬¡æ•°',
+   failure_count        bigint comment 'å¤±è´¥æ¬¡æ•°',
+   avg_elapsed          bigint comment 'å¹³å‡å»¶æ—¶',
+   max_elapsed          bigint comment 'æœ€å¤§å»¶æ—¶',
+   min_elapsed          bigint comment 'æœ€å°å»¶æ—¶',
+   lastest_error_msg    varchar(400) DEFAULT NULL COMMENT 'æœ€æ–°é”™è¯¯ç±»',
+  
+   lastest_biz_error_code varchar(45) DEFAULT NULL COMMENT 'æœ€è¿‘ä¸šåŠ¡é”™è¯¯ä»£ç ',
+  
+   lastest_biz_error_msg varchar(400) DEFAULT NULL COMMENT 'æœ€è¿‘ä¸šåŠ¡é”™è¯¯ä¿¡æ¯',
+   biz_failure_count bigint(20) DEFAULT NULL,
    primary key (log_time, machine_address, service_name),
-   key AK_Identifier_2 (success_count),
-   key AK_Identifier_3 (failure_count),
-   key AK_Identifier_4 (avg_elapsed),
-   key AK_Identifier_5 (max_elapsed)
-);
+   key AK_sml_2 (success_count),
+   key AK_sml_3 (failure_count),
+   key AK_sml_4 (avg_elapsed),
+   key AK_sml_5 (max_elapsed)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table service_monitor_log comment 'Ó¦ÓÃ·şÎñ·ÃÎÊ·ÖÖÓ¼¶Í³¼Æ±í';
+alter table service_monitor_log comment 'åº”ç”¨æœåŠ¡è®¿é—®åˆ†é’Ÿçº§ç»Ÿè®¡è¡¨';
 
 /*==============================================================*/
 /* Table: service_monitor_log_day                               */
 /*==============================================================*/
 create table service_monitor_log_day
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   service_name         varchar(600) not null comment '·şÎñÃû³Æ',
-   success_count        bigint comment '³É¹¦´ÎÊı',
-   failure_count        bigint comment 'Ê§°Ü´ÎÊı',
-   avg_elapsed          bigint comment 'Æ½¾ùÑÓÊ±',
-   max_elapsed          bigint comment '×î´óÑÓÊ±',
-   min_elapsed          bigint comment '×îĞ¡ÑÓÊ±',
-   lastest_error_msg    varchar(400) comment '×îĞÂ´íÎóÀà',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   success_count        bigint comment 'æˆåŠŸæ¬¡æ•°',
+   failure_count        bigint comment 'å¤±è´¥æ¬¡æ•°',
+   avg_elapsed          bigint comment 'å¹³å‡å»¶æ—¶',
+   max_elapsed          bigint comment 'æœ€å¤§å»¶æ—¶',
+   min_elapsed          bigint comment 'æœ€å°å»¶æ—¶',
+   lastest_error_msg    varchar(400) DEFAULT NULL COMMENT 'æœ€æ–°é”™è¯¯ç±»',
+  
+   lastest_biz_error_code varchar(45) DEFAULT NULL COMMENT 'æœ€è¿‘ä¸šåŠ¡é”™è¯¯ä»£ç ',
+  
+   lastest_biz_error_msg varchar(400) DEFAULT NULL COMMENT 'æœ€è¿‘ä¸šåŠ¡é”™è¯¯ä¿¡æ¯',
+   biz_failure_count bigint(20) DEFAULT NULL,
    primary key (log_time, machine_address, service_name),
-   key AK_Identifier_2 (success_count),
-   key AK_Identifier_3 (failure_count),
-   key AK_Identifier_4 (avg_elapsed),
-   key AK_Identifier_5 (max_elapsed)
-);
+   key AK_smld_2 (success_count),
+   key AK_smld_3 (failure_count),
+   key AK_smld_4 (avg_elapsed),
+   key AK_smld_5 (max_elapsed)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table service_monitor_log_day comment '·şÎñ¼à¿ØÌì»ã×Ü±í';
+alter table service_monitor_log_day comment 'æœåŠ¡ç›‘æ§å¤©æ±‡æ€»è¡¨';
 
 /*==============================================================*/
 /* Table: service_monitor_log_hour                              */
 /*==============================================================*/
 create table service_monitor_log_hour
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   service_name         varchar(600) not null comment '·şÎñÃû³Æ',
-   success_count        bigint comment '³É¹¦´ÎÊı',
-   failure_count        bigint comment 'Ê§°Ü´ÎÊı',
-   avg_elapsed          bigint comment 'Æ½¾ùÑÓÊ±',
-   max_elapsed          bigint comment '×î´óÑÓÊ±',
-   min_elapsed          bigint comment '×îĞ¡ÑÓÊ±',
-   lastest_error_msg    varchar(400) comment '×îĞÂ´íÎóÀà',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   service_name         varchar(250) not null comment 'æœåŠ¡åç§°',
+   success_count        bigint comment 'æˆåŠŸæ¬¡æ•°',
+   failure_count        bigint comment 'å¤±è´¥æ¬¡æ•°',
+   avg_elapsed          bigint comment 'å¹³å‡å»¶æ—¶',
+   max_elapsed          bigint comment 'æœ€å¤§å»¶æ—¶',
+   min_elapsed          bigint comment 'æœ€å°å»¶æ—¶',
+   lastest_error_msg    varchar(400) DEFAULT NULL COMMENT 'æœ€æ–°é”™è¯¯ç±»',
+  
+   lastest_biz_error_code varchar(45) DEFAULT NULL COMMENT 'æœ€è¿‘ä¸šåŠ¡é”™è¯¯ä»£ç ',
+  
+   lastest_biz_error_msg varchar(400) DEFAULT NULL COMMENT 'æœ€è¿‘ä¸šåŠ¡é”™è¯¯ä¿¡æ¯',
+   biz_failure_count bigint(20) DEFAULT NULL,
    primary key (log_time, machine_address, service_name),
-   key AK_Identifier_2 (success_count),
-   key AK_Identifier_3 (failure_count),
-   key AK_Identifier_4 (avg_elapsed),
-   key AK_Identifier_5 (max_elapsed)
-);
+   key AK_smlh_2 (success_count),
+   key AK_smlh_3 (failure_count),
+   key AK_smlh_4 (avg_elapsed),
+   key AK_smlh_5 (max_elapsed)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table service_monitor_log_hour comment '·şÎñ¼à¿ØĞ¡Ê±»ã×Ü±í';
+alter table service_monitor_log_hour comment 'æœåŠ¡ç›‘æ§å°æ—¶æ±‡æ€»è¡¨';
 
 /*==============================================================*/
 /* Table: system_monitor_log                                    */
 /*==============================================================*/
 create table system_monitor_log
 (
-   log_time             datetime not null comment 'ÈÕÖ¾Ê±¼ä',
-   machine_address      varchar(50) not null comment 'Ö÷»úµØÖ·',
-   disk_total           bigint comment '´ÅÅÌ×ÜÈİÁ¿',
-   disk_free            bigint comment '´ÅÅÌÎ´·ÖÅäÈİÁ¿',
-   disk_usable          bigint comment '´ÅÅÌ¿ÉÓÃÈİÁ¿',
-   memory_max           bigint comment '×î´óÄÚ´æÁ¿',
-   memory_total         bigint comment 'ÄÚ´æ×ÜÁ¿',
-   memory_free          bigint comment '¿ÕÏĞÄÚ´æÁ¿',
-   memory_heapUsage     bigint comment '¶ÑÄÚ´æÁ¿',
-   memory_nonHeapUsage  bigint comment '·Ç¶ÑÄÚ´æÁ¿',
-   os_arch              varchar(100) comment '²Ù×÷ÏµÍ³µÄ¼Ü¹¹',
-   os_name              varchar(100) comment '²Ù×÷ÏµÍ³Ãû³Æ',
-   os_version           varchar(100) comment '²Ù×÷ÏµÍ³µÄ°æ±¾',
-   os_availableProcessors int comment 'JavaĞéÄâ»ú¿ÉÒÔÊ¹ÓÃµÄ´¦ÀíÆ÷ÊıÄ¿',
-   os_systemLoadAverage float comment '×îºóÒ»·ÖÖÓÄÚÏµÍ³¼ÓÔØÆ½¾ùÖµ',
-   os_totalPhysicalMemory bigint comment '×ÜÎïÀíÄÚ´æÁ¿',
-   os_freePhysicalMemory bigint comment 'Î´·ÖÅäÎïÀíÄÚ´æÁ¿',
-   os_totalSwapSpace    bigint comment '×Ü½»»»¿Õ¼äÁ¿',
-   os_freeSwapSpace     bigint comment 'Î´·ÖÅä½»»»¿Õ¼äÁ¿',
-   os_processTime       bigint comment 'javaµ½µ±Ç°ÎªÖ¹ËùÕ¼ÓÃµÄCPU´¦ÀíÊ±¼ä',
-   os_committedVirtualMemory bigint comment 'javaÔËĞĞ½ø³Ì±£Ö¤¿ÉÓÃµÄĞéÄâÄÚ´æ´óĞ¡',
-   runtime_javaVersion  varchar(100) comment 'java°æ±¾',
-   runtime_startTime    bigint comment 'JVMÆô¶¯Ê±¼ä',
-   runtime_upTime       bigint comment 'JVMÔËĞĞÊ±³¤',
-   runtime_userDir      varchar(1000) comment 'ÏµÍ³ÓÃ»§Ä¿Â¼',
-   runtime_userName     varchar(400) comment 'ÏµÍ³ÓÃ»§Ãû³Æ',
-   thread_active        int comment '»î¶¯Ïß³ÌÊı',
-   thread_cat_count     int comment 'APM¼à¿ØÏà¹ØÏß³ÌÊı',
-   thread_count         int comment 'µ±Ç°×Ü´æ»îÏß³ÌÊı',
-   thread_daemon_count  int comment 'µ±Ç°ÊØ»¤Ïß³ÌÊı',
-   thread_http          int comment 'µ±Ç°HTTPÏß³ÌÊı',
-   thread_peek          int comment '·åÖµ»î¶¯Ïß³Ì¼ÆÊı',
-   thread_started       int comment 'ÒÑÆô¶¯Ïß³ÌÊı',
-   thread_total_started int comment '×ÜÆô¶¯Ïß³ÌÊı',
+   log_time             datetime not null comment 'æ—¥å¿—æ—¶é—´',
+   machine_address      varchar(50) not null comment 'ä¸»æœºåœ°å€',
+   disk_total           bigint comment 'ç£ç›˜æ€»å®¹é‡',
+   disk_free            bigint comment 'ç£ç›˜æœªåˆ†é…å®¹é‡',
+   disk_usable          bigint comment 'ç£ç›˜å¯ç”¨å®¹é‡',
+   memory_max           bigint comment 'æœ€å¤§å†…å­˜é‡',
+   memory_total         bigint comment 'å†…å­˜æ€»é‡',
+   memory_free          bigint comment 'ç©ºé—²å†…å­˜é‡',
+   memory_heapUsage     bigint comment 'å †å†…å­˜é‡',
+   memory_nonHeapUsage  bigint comment 'éå †å†…å­˜é‡',
+   os_arch              varchar(100) comment 'æ“ä½œç³»ç»Ÿçš„æ¶æ„',
+   os_name              varchar(100) comment 'æ“ä½œç³»ç»Ÿåç§°',
+   os_version           varchar(100) comment 'æ“ä½œç³»ç»Ÿçš„ç‰ˆæœ¬',
+   os_availableProcessors int comment 'Javaè™šæ‹Ÿæœºå¯ä»¥ä½¿ç”¨çš„å¤„ç†å™¨æ•°ç›®',
+   os_systemLoadAverage float comment 'æœ€åä¸€åˆ†é’Ÿå†…ç³»ç»ŸåŠ è½½å¹³å‡å€¼',
+   os_totalPhysicalMemory bigint comment 'æ€»ç‰©ç†å†…å­˜é‡',
+   os_freePhysicalMemory bigint comment 'æœªåˆ†é…ç‰©ç†å†…å­˜é‡',
+   os_totalSwapSpace    bigint comment 'æ€»äº¤æ¢ç©ºé—´é‡',
+   os_freeSwapSpace     bigint comment 'æœªåˆ†é…äº¤æ¢ç©ºé—´é‡',
+   os_processTime       bigint comment 'javaåˆ°å½“å‰ä¸ºæ­¢æ‰€å ç”¨çš„CPUå¤„ç†æ—¶é—´',
+   os_committedVirtualMemory bigint comment 'javaè¿è¡Œè¿›ç¨‹ä¿è¯å¯ç”¨çš„è™šæ‹Ÿå†…å­˜å¤§å°',
+   runtime_javaVersion  varchar(100) comment 'javaç‰ˆæœ¬',
+   runtime_startTime    bigint comment 'JVMå¯åŠ¨æ—¶é—´',
+   runtime_upTime       bigint comment 'JVMè¿è¡Œæ—¶é•¿',
+   runtime_userDir      varchar(1000) comment 'ç³»ç»Ÿç”¨æˆ·ç›®å½•',
+   runtime_userName     varchar(400) comment 'ç³»ç»Ÿç”¨æˆ·åç§°',
+   thread_active        int comment 'æ´»åŠ¨çº¿ç¨‹æ•°',
+   thread_cat_count     int comment 'APMç›‘æ§ç›¸å…³çº¿ç¨‹æ•°',
+   thread_count         int comment 'å½“å‰æ€»å­˜æ´»çº¿ç¨‹æ•°',
+   thread_daemon_count  int comment 'å½“å‰å®ˆæŠ¤çº¿ç¨‹æ•°',
+   thread_http          int comment 'å½“å‰HTTPçº¿ç¨‹æ•°',
+   thread_peek          int comment 'å³°å€¼æ´»åŠ¨çº¿ç¨‹è®¡æ•°',
+   thread_started       int comment 'å·²å¯åŠ¨çº¿ç¨‹æ•°',
+   thread_total_started int comment 'æ€»å¯åŠ¨çº¿ç¨‹æ•°',
    primary key (log_time, machine_address),
-   key AK_Identifier_2 (thread_peek)
-);
+   key AK_syml_2 (thread_peek)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table system_monitor_log comment 'ÏµÍ³¼à¿ØÈÕÖ¾±í';
+alter table system_monitor_log comment 'ç³»ç»Ÿç›‘æ§æ—¥å¿—è¡¨';
+
+/*==============================================================*/
+/* Table: demo_trade_order                                      */
+/*==============================================================*/
+create table demo_trade_order
+(
+   id                   bigint not null auto_increment comment 'è®¢å•ID',
+   sku_name             varchar(100) not null comment 'å•†å“åç§°',
+   sku_price            float(8,2) not null comment 'å•†å“å•ä»·',
+   order_quantity       int not null comment 'ä¸‹å•æ•°é‡',
+   customer_name        varchar(100) not null comment 'ä¸‹å•å®¢æˆ·',
+   delivery_date        date not null comment 'äº¤è´§æ—¥æœŸ',
+   delivery_place       varchar(200) not null comment 'äº¤è´§åœ°ç‚¹',
+   order_desc           text comment 'å¤‡æ³¨',
+   primary key (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å•†å“è®¢å•';
+
+alter table demo_trade_order comment 'å•†å“è®¢å•';
 
 
 
 CREATE TABLE `apm_business_cfg` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `business_key` varchar(200) DEFAULT NULL COMMENT 'ÒµÎñÖ÷¼ü',
-  `title` varchar(200) DEFAULT NULL COMMENT '±êÌâ',
-  `description` varchar(500) DEFAULT NULL COMMENT 'ÃèÊö',
-  `class_method_name` varchar(500) DEFAULT NULL COMMENT 'ÀàÃû·½·¨Ãû',
-  `parameters` varchar(1000) DEFAULT NULL COMMENT '²ÎÊıJSON,¸ñÊ½:[{name:''token'',type:''String''},{name:''fundCode'',type:''String''},{name:''productCode'',type:''String''}]',
-  `return_result` varchar(1000) DEFAULT NULL COMMENT '·µ»Ø²ÎÊı,¸ñÊ½:[{name:''investCount'',type:''int''},{name:''assets'',type:''Object''}]',
-  `create_time` datetime DEFAULT NULL COMMENT '´´½¨Ê±¼ä',
-  `modify_time` datetime DEFAULT NULL COMMENT 'ĞŞ¸ÄÊ±¼ä',
+  `business_key` varchar(200) DEFAULT NULL COMMENT 'ä¸šåŠ¡ä¸»é”®',
+  `title` varchar(200) DEFAULT NULL COMMENT 'æ ‡é¢˜',
+  `description` varchar(500) DEFAULT NULL COMMENT 'æè¿°',
+  `class_method_name` varchar(500) DEFAULT NULL COMMENT 'ç±»åæ–¹æ³•å',
+  `parameters` varchar(1000) DEFAULT NULL COMMENT 'å‚æ•°JSON,æ ¼å¼:[{name:''token'',type:''String''},{name:''fundCode'',type:''String''},{name:''productCode'',type:''String''}]',
+  `return_result` varchar(1000) DEFAULT NULL COMMENT 'è¿”å›å‚æ•°,æ ¼å¼:[{name:''investCount'',type:''int''},{name:''assets'',type:''Object''}]',
+  `create_time` datetime DEFAULT NULL COMMENT 'åˆ›å»ºæ—¶é—´',
+  `modify_time` datetime DEFAULT NULL COMMENT 'ä¿®æ”¹æ—¶é—´',
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_business_key` (`business_key`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
