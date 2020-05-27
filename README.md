@@ -19,4 +19,7 @@
 　　　　　　　　　　　　|------**`storm-monitor-server`**　　　　　　　　-->*三级工程，监控收集服务端，一个基于SpringBoot的监听服务工程（注意：不是web工程），负责接收来自各采集端的性能、异常、系统指标，并处理入库*<br>
 　　　　　　　　　　　　|------**`storm-monitor-dashboard`**　　　　　　　-->*三级工程，监控大盘，一个基于SpringBoot的Web工程，提供各类监控大盘、监控配置、图表查看、监控数据查询等能力。*<br>
 ## 运行步骤说明
-待...
+### 步骤一：初始化数据库
+   1、创建监控数据库及各指标存储表：运行database/monitor_create_db_and_table.sql脚本，会创建数据库“storm_monitor”及13张指标监控表和一张演示表<br>
+   2、初始化自定义数据采集配置和自定义报表配置：运行database/monitor_config_data.sql.sql脚本，会在表“apm_business_cfg”及“apm_chart_confg”中插入一些配置数据
+### 步骤二：
