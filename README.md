@@ -20,6 +20,43 @@
 　　　　　　　　　　　　|------**`storm-monitor-dashboard`**　　　　　　　-->*三级工程，监控大盘，一个基于SpringBoot的Web工程，提供各类监控大盘、监控配置、图表查看、监控数据查询等能力。*<br>
 ## 运行步骤说明
 ### 步骤一：初始化数据库
-   1、创建监控数据库及各指标存储表：运行database/monitor_create_db_and_table.sql脚本，会创建数据库“storm_monitor”及13张指标监控表和一张演示表<br>
-   2、初始化自定义数据采集配置和自定义报表配置：运行database/monitor_config_data.sql.sql脚本，会在表“apm_business_cfg”及“apm_chart_confg”中插入一些配置数据
-### 步骤二：
+   1、创建监控数据库及各指标存储表：运行database/monitor_create_db_and_table.sql脚本，会创建数据库 `storm_monitor` 及13张指标监控表和一张演示表<br>
+   2、初始化自定义数据采集配置和自定义报表配置：运行database/monitor_config_data.sql.sql脚本，会在表`apm_business_cfg`及`apm_chart_confg`中插入一些配置数据
+### 步骤二：修改工程中的数据库连接
+分别修改如下3项数据库连接：<br>
+1、指标收集服务工程的数据库连接，位置：`storm-monitor\server\src\main\resources\jdbc.properties` <br>
+2、监控大盘服务工程的数据库连接，位置：`storm-monitor\dashboard\src\main\resources\jdbc.properties`<br>
+3、演示客户端工程的数据库连接，位置：`client-demo\src\main\resources\jdbc.properties`<br>
+以上3个文件，主要确认`druid.url`，`druid.username`，`druid.password`这三项属性，以保证数据库连接无误。<br>
+### 步骤三：编译工程
+保证各个工程能够顺利通过Maven编译，并生成相应jar包
+### 步骤四：启动指标收集服务
+有两种启动方式：<br>
+1、开发模式下，运行指标收集服务工程`storm-monitor-server`的“`StormMonitorServerApplication`”类 <br>
+2、以"`java -jar storm-monitor-server-1.0.0.jar`"的方式直接运行编译后的SpringBoot部署jar包<br>
+启动后，可以通过浏览器访问http://localhost:8092/apmtest/getinfo, 如果页面能够顺利访问，说明服务启动正常。<br>
+可以通过修改工程中的`src\main\resources\META-INF\springxml\service-config.xml`中的id为“`apmCommonConfig`”的Bean的`ServerHttpPort`属性来修改访问端口<br>
+**相关功能及设计细节请参考《微服务治理：体系、架构及实践》中的第8章**
+### 步骤五：启动监控大盘服务
+有两种启动方式：<br>
+1、开发模式下，运行指标收集服务工程`storm-monitor-dashboard`的“`StormMonitorDashboardApplication`”类 <br>
+2、以"`java -jar storm-monitor-dashboard-1.0.0.jar`"的方式直接运行编译后的SpringBoot部署jar包<br>
+启动后，可以通过浏览器访问http://localhost:9090/, 如果页面能够顺利访问，说明服务启动正常。<br>
+可以通过修改工程中的`src\main\resources\application.yml`中的`server.port`属性来修改web访问端口<br>
+### 步骤六：启动客户端演示应用
+这个演示应用是一个web应用，有两种启动方式：<br>
+1、开发模式下，运行指标收集服务工程`storm-monitor-demo`的“`StormMonitorClientDemoApplication`”类 <br>
+2、以"`java -jar storm-monitor-client-demo-1.0.0.jar`"的方式直接运行编译后的SpringBoot部署jar包<br>
+启动后，可以通过浏览器访问http://localhost:8080/, 如果页面能够顺利访问，说明服务启动正常。<br>
+可以通过修改工程中的`src\main\resources\application.yml`中的`server.port`属性来修改web访问端口<br>
+### 步骤七：数据采集
+登陆演示客户端：http://localhost:8080/<br>
+点击菜单“商品订单（事件样例）”，在这个模拟的订单功能模块中，进行一些增删改查动作，以产生一些事件，便于抓取器进行指标采集和抓取<br>
+或者可以点击菜单“调用事件生成器”，点击启动按钮，这个页面会定时调用后台相关功能，可以持续的输出一些模拟事件。<br>
+**相关指标采集功能及设计细节请参考《微服务治理：体系、架构及实践》中的第7章**
+### 步骤七：指标大盘监控
+登陆监控大盘：http://localhost:9090 ，通过各个功能菜单查看各类指标及指标的聚合分析能力。<br>
+**相关功能及设计细节请参考《微服务治理：体系、架构及实践》中的第9章**<br>
+# 祝各位顺利
+
+
