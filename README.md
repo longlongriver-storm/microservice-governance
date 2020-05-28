@@ -22,6 +22,7 @@
 ### 步骤一：初始化数据库
    1、创建监控数据库及各指标存储表：运行database/monitor_create_db_and_table.sql脚本，会创建数据库 `storm_monitor` 及13张指标监控表和一张演示表<br>
    2、初始化自定义数据采集配置和自定义报表配置：运行database/monitor_config_data.sql.sql脚本，会在表`apm_business_cfg`及`apm_chart_confg`中插入一些配置数据
+   **请注意，以上两个SQL文件均是UTF-8编码，请在导入时设置好编码格式，以防止出现乱码**
 ### 步骤二：修改工程中的数据库连接
 分别修改如下3项数据库连接：<br>
 1、指标收集服务工程的数据库连接，位置：`storm-monitor\server\src\main\resources\jdbc.properties` <br>
