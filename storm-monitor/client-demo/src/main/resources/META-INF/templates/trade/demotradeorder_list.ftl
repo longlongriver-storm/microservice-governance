@@ -10,7 +10,8 @@
     <body style="padding: 10px">
         <div id="MyPopWindow" modal="true" shadow="false" minimizable="false" cache="false" maximizable="false" collapsible="false" resizable="false" style="margin: 0px;padding: 0px;overflow: auto;"></div>
         <h2>商品订单管理</h2>
-        <p>管理商品订单的添加、修改、删除.</p>
+        <p style="color: red">这是一个模拟的商品订单的添加、修改、删除的管理功能，主要为监控指标提供事件来源。<br>随着订单的创建、修改、删除，
+            后台相关接口的调用会被指标采集器所采集，并不断传输给指标收集服务端。<br>在监控大盘上，就能以大盘、图表的形式对这些指标进行各个维度的观察和分析。</p>
         <div class="easyui-panel searchdiv" style="padding:5px;width:99%">
             <form id="demotradeorderSearchForm" method="post">
                 <input type="hidden" name="page.pageNo" value="1" />
